@@ -8,8 +8,9 @@ import javax.persistence.*;
 public class Books {
 
 @Id
-@SequenceGenerator(name = "bookIdGen", sequenceName = "bookSeq",allocationSize = 1)
 @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "bookIdGen")
+@SequenceGenerator(name = "bookIdGen", sequenceName = "BOOKSEQ",allocationSize = 1)
+
 long id;
 
 @Column(name = "NAME")

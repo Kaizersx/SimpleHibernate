@@ -62,6 +62,8 @@
 <br>
 <form action="/books" method="post">
 
+
+
     Book name:<input type="text" name="bookname" value="${booking.name}"><br><br>
     Book author:<input type="text" name="bookauthor" value="${booking.author}"><br><br>
     Book year:<input type="text" name="bookyear" value="${booking.year}"><br><br>

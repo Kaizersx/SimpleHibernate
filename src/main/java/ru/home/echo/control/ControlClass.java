@@ -18,7 +18,7 @@ public class ControlClass {
         List<Books>book=new ArrayList<>();
         Query query=session.createQuery("from Books book");
         book= query.list();
-        getSession.shutdown();
+
         return  book;
 
     }
@@ -31,7 +31,7 @@ public class ControlClass {
         session.save(book);
         t.commit();
         System.out.println("inserted.......");
-    getSession.shutdown();
+
     }
 
 

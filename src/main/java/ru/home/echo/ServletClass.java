@@ -37,21 +37,21 @@ public class ServletClass extends HttpServlet {
 
         RequestDispatcher rd=null;
 
-        Books books= new Books();
-        ControlClass controlClass= new ControlClass();
-        List<Books>booki=controlClass.getAllData();
-        req.setAttribute("Books",booki);
+         Books books= new Books();
+     ControlClass controlClass = new ControlClass();
 
-        //controlClass.saveBook(books);
-//        req.setAttribute("booking",books);
+     req.setAttribute("booking",books);
 
-//        books.setName(req.getParameter("name").toString());
-//        books.setAuthor(req.getParameter("author").toString());
-//        books.setYear(Integer.parseInt(req.getParameter("year")));
+        books.setName(req.getParameter("bookname").toString());
+        books.setAuthor(req.getParameter("bookauthor").toString());
+        books.setYear(Integer.parseInt(req.getParameter("bookyear")));
 
-//        List<Books>booksList= new ArrayList<>();
-//        req.setAttribute("Books",booksList);
-        rd=req.getRequestDispatcher("/books");
+        controlClass.saveBook(books);
+
+
+        List<Books>booksList= controlClass.getAllData();
+        req.setAttribute("Books",booksList);
+        rd=req.getRequestDispatcher("BookStore.jsp");
         rd.forward(req,resp);
 
     }
