@@ -18,40 +18,95 @@ public class ServletClass extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-
-        RequestDispatcher rd=null;
         ControlClass controlClass= new ControlClass();
-        List<Books>books=controlClass.getAllData();
+        RequestDispatcher rd = null;
 
-        req.setAttribute("Books",books);
-        rd=req.getRequestDispatcher("BookStore.jsp");
-        rd.forward(req,resp);
+        if (req.getParameter("action" )!=null) {
+
+            if (req.getParameter("action").equals("delete")) {
+
+                int id = Integer.parseInt(req.getParameter("id"));
+                Books books = new Books();
+                books.setId(id);
+
+                controlClass.deleteBook(books);
+
+                List<Books> book = controlClass.getAllData();
+                req.setAttribute("Books", book);
+                rd = req.getRequestDispatcher("BookStore.jsp");
+            }
+
+            else if (req.getParameter("action").equals("update")){
+
+                int id = Integer.parseInt(req.getParameter("id").toString());
 
 
+                Books book = controlClass.getBooksById(id);
+                req.setAttribute("booking", book);
+                req.setAttribute("action", "update");
 
+                List<Books> books = controlClass.getAllData();
+                req.setAttribute("Books", books);
+
+                rd = req.getRequestDispatcher("BookStore.jsp");
+
+            }
+        }
+        else {
+
+            List<Books> books = controlClass.getAllData();
+            req.setAttribute("Books", books);
+            rd = req.getRequestDispatcher("BookStore.jsp");
+        }
+
+        rd.forward(req, resp);
     }
 
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
+        String action = req.getParameter("action").toString();
+
         RequestDispatcher rd=null;
+        if(action.equals("new")) {
+            Books books = new Books();
+            ControlClass controlClass = new ControlClass();
 
-         Books books= new Books();
-     ControlClass controlClass = new ControlClass();
+            req.setAttribute("booking", books);
 
-     req.setAttribute("booking",books);
+            books.setName(req.getParameter("bookname").toString());
+            books.setAuthor(req.getParameter("bookauthor").toString());
+            books.setYear(Integer.parseInt(req.getParameter("bookyear")));
 
-        books.setName(req.getParameter("bookname").toString());
-        books.setAuthor(req.getParameter("bookauthor").toString());
-        books.setYear(Integer.parseInt(req.getParameter("bookyear")));
-
-        controlClass.saveBook(books);
+            controlClass.saveBook(books);
 
 
-        List<Books>booksList= controlClass.getAllData();
-        req.setAttribute("Books",booksList);
-        rd=req.getRequestDispatcher("BookStore.jsp");
+            List<Books> booksList = controlClass.getAllData();
+            req.setAttribute("Books", booksList);
+            rd = req.getRequestDispatcher("BookStore.jsp");
+        }
+
+        else if(action.equals("update")){
+
+            Books book= new Books();
+            book.setName(req.getParameter("bookname").toString());
+            book.setAuthor(req.getParameter("bookauthor").toString());
+            book.setYear(Integer.parseInt(req.getParameter("bookyear")));
+
+            book.setId(Integer.parseInt(req.getParameter("bookingid").toString()));
+
+            ControlClass controlClass= new ControlClass();
+            controlClass.updateBook(book);
+
+            List<Books>booksList= controlClass.getAllData();
+            req.setAttribute("Books",booksList);
+            rd=req.getRequestDispatcher("BookStore.jsp");
+
+        }
+
+
+
         rd.forward(req,resp);
 
     }

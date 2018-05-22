@@ -52,7 +52,8 @@
         <td>${book.name}</td>
         <td>${book.author}</td>
         <td>${book.year}</td>
-
+        <td><a href="/books?action=delete&id=${book.id}">delete</a></td>
+        <td><a href="/books?action=update&id=${book.id}">update</a></td>
     </tr>
 </c:forEach>
 
@@ -67,6 +68,8 @@
     Book name:<input type="text" name="bookname" value="${booking.name}"><br><br>
     Book author:<input type="text" name="bookauthor" value="${booking.author}"><br><br>
     Book year:<input type="text" name="bookyear" value="${booking.year}"><br><br>
+    <input type="hidden" value="new" name="action">
+    <input type="hidden" value="${booking.id}" name="bookingid">
               <input type="submit" value="submit">
 
 </form>
